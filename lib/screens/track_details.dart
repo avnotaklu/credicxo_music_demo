@@ -5,6 +5,7 @@ import 'package:credicxo_music_app/bloc/track_details.dart/track_details_bloc.da
 import 'package:credicxo_music_app/bloc/track_lyrics/track_lyrics_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:share_plus/share_plus.dart';
 
 class TrackDetails extends StatelessWidget {
   const TrackDetails({Key? key}) : super(key: key);
@@ -115,8 +116,8 @@ class TrackDetails extends StatelessWidget {
                                                       width: width * 0.1,
                                                       child: IconButton(
                                                           onPressed: () {
-                                                            // Share.share(
-                                                            //     '${track.trackShareUrl}');
+                                                            Share.share(
+                                                                '${track.trackShareUrl}');
                                                           },
                                                           icon: const Icon(
                                                               Icons.ios_share,

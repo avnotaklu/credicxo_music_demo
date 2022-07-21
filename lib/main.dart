@@ -27,11 +27,13 @@ class MyApp extends StatelessWidget {
     return BlocProvider<InternetConnectivityBloc>(
       create: (context) => InternetConnectivityBloc(),
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Credicxo Music App',
         theme: ThemeData(
+          fontFamily: "Ubuntu",
           primarySwatch: Colors.blue,
         ),
         home: AllTracks(),
+        debugShowCheckedModeBanner: false,
       ),
     );
   }
