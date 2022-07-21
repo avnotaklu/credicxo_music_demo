@@ -13,14 +13,15 @@ class TrackDetailsInitialState extends TrackDetailsState {
   TrackDetailsInitialState() : super([]);
 }
 
-class TrackDetailsLoadingState extends TrackDetailsState {
-  final int id;
-  TrackDetailsLoadingState(this.id) : super([id]);
-}
-
 class TrackDetailsLoadedState extends TrackDetailsState {
   final Track track;
+  final bool trackBookmarked;
   TrackDetailsLoadedState({
+    required this.trackBookmarked,
     required this.track,
-  }) : super([track]);
+  }) : super([track, trackBookmarked]);
+}
+
+class TrackDetailsLoadingErrorState extends TrackDetailsState {
+  TrackDetailsLoadingErrorState() : super([]);
 }

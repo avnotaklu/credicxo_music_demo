@@ -8,13 +8,13 @@ abstract class TrackDetailsEvent extends Equatable {
   List<Object> get props => stateVars;
 }
 
-class ClickGetLyrics extends TrackDetailsEvent {
-  final int id;
-
-  ClickGetLyrics(this.id) : super([id]);
+class TrackDetailsLoadingEvent extends TrackDetailsEvent {
+  TrackDetailsLoadingEvent() : super([]);
 }
 
-class TrackDetailsLoadingEvent extends TrackDetailsEvent {
-  final int id;
-  TrackDetailsLoadingEvent(this.id) : super([id]);
+class TrackBookmarkEvent extends TrackDetailsEvent {
+  final Track track;
+  final bool trackBookmarked;
+  TrackBookmarkEvent(this.track, this.trackBookmarked)
+      : super([track, trackBookmarked]);
 }

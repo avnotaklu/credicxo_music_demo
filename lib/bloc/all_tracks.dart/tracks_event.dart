@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'tracks_bloc.dart';
 
 abstract class TracksEvent extends Equatable {
@@ -8,12 +9,7 @@ abstract class TracksEvent extends Equatable {
   List<Object> get props => stateVars;
 }
 
-class TracksLoading extends TracksEvent {
-  TracksLoading() : super([]);
+class TracksLoadingEvent extends TracksEvent {
+  TracksLoadingEvent() : super([]);
 }
 
-class ClickTrack extends TracksEvent {
-  final int id;
-
-  ClickTrack(this.id) : super([id]);
-}

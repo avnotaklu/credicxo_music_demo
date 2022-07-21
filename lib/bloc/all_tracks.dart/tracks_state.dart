@@ -26,3 +26,7 @@ class ClickedTrackState extends TracksState {
   final int id;
   ClickedTrackState(this.id) : super([id]);
 }
+
+class TracksLoadingErrorState extends TracksState {
+  TracksLoadingErrorState() : super([]);
+}

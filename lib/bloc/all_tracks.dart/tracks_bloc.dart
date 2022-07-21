@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
+import 'package:credicxo_music_app/bloc/internet_connectivity/internet_connectivity_bloc.dart';
 import 'package:credicxo_music_app/model/music_match_model/all_tracks_body.dart';
 import 'package:credicxo_music_app/model/music_match_model/music_match_response.dart';
 import 'package:credicxo_music_app/model/music_match_model/single_track_body.dart';
@@ -13,14 +15,28 @@ part 'tracks_event.dart';
 part 'tracks_state.dart';
 
 class TracksBloc extends Bloc<TracksEvent, TracksState> {
-  TracksBloc() : super(TracksInitialState()) {
-    on<TracksEvent>((event, emit) async {
-      if (event is TracksLoading) {
-        final tracks = await fetchAllTracks();
-        emit(TracksLoadedState(tracks: tracks));
+  final InternetConnectivityBloc internetConnectivityBloc;
+  late StreamSubscription internetBlocSubscription;
+  TracksBloc(this.internetConnectivityBloc) : super(TracksInitialState()) {
+    internetBlocSubscription = internetConnectivityBloc.stream
+        .listen((InternetConnectivityState state) {
+      final hasConnection = internetConnectivityBloc
+          .checkLoadingStateAndInternetConnection<TracksInitialState>(
+              this.state);
+      if (hasConnection) {
+        add(TracksLoadingEvent());
       }
-      if (event is ClickTrack) {
-        emit(ClickedTrackState(event.id));
+    });
+
+    on<TracksEvent>((event, emit) async {
+      if (internetConnectivityBloc.checkLoadingStateAndInternetConnection<
+          TracksInitialState>(this.state)) {
+        try {
+          final tracks = await fetchAllTracks();
+          emit(TracksLoadedState(tracks: tracks));
+        } catch (e) {
+          emit(TracksLoadingErrorState());
+        }
       }
     });
   }
@@ -33,5 +49,11 @@ class TracksBloc extends Bloc<TracksEvent, TracksState> {
             .message
             ?.body as AllTrackBody)
         .allTracks!;
+  }
+
+  @override
+  Future<void> close() {
+    internetBlocSubscription.cancel();
+    return super.close();
   }
 }
